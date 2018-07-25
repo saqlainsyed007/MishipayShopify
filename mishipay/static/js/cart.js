@@ -1,5 +1,6 @@
 $(document).on('change', '.product-quantity', function(event){
 
+  $('input').prop('disabled', true)
   let productInformation = event.target.dataset;
   productInformation = Object.assign({}, productInformation);
 
@@ -26,6 +27,7 @@ $(document).on('change', '.product-quantity', function(event){
     error: function() {
       event.target.value = $(event.target).attr('prev-value');
       $(event.target).siblings('.quantity-update-error').text("An error occured. Please try again.");
-    },
+      $('input').prop('disabled', false);
+    }
   });
 });

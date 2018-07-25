@@ -1,5 +1,6 @@
 $(document).on('click', '.add-to-cart-button', function(event){
 
+  event.target.disabled = true;
   let productInformation = event.target.dataset;
   productInformation = Object.assign({}, productInformation);
 
@@ -10,11 +11,11 @@ $(document).on('click', '.add-to-cart-button', function(event){
     contentType: "application/json",
 
     success: function(result){
-      event.target.disabled = true;
       event.target.innerText = "Added to cart"
     },
 
     error: function() {
+      event.target.disabled = false;
       console.log("Error!");
     },
   });
