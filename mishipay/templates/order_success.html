@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static custom_tags %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid cart-container">
+    <div class="row center no-items-msg-row">
+      <h2>Your order #{{order_number}} was {{order_status}} successfully</h2>
+    </div>
+    <div class="row center">
+      <div class="col-md-3 right">
+        <button
+          class="btn btn-primary btn-md continue-shopping-button redirect-button"
+          redirect-url="{% url 'product_listing' %}"
+        >
+          Continue Shopping
+        </button>
+      </div>
+      <div class="col-md-3 offset-md-1 left">
+        <button
+          class="btn btn-primary btn-md view-orders-button redirect-button"
+          redirect-url="{% url 'my_orders' %}"
+        >
+          View Previous Orders
+        </button>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block script %}
+  <script src={% static 'js/cart.js' %}></script>
+{% endblock %}

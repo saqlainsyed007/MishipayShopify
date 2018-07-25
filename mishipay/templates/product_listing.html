@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/product-listing.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid center">
+    {% if not products %}
+      <div class="row center">
+        {% if err_msg %}
+          <h4 class="error">{{ err_msg }}</h4>
+        {% else %}
+          <h4>No products yet. Please try after sometime.</h4>
+        {% endif %}
+      </div>
+    {% else %}
+      {% for product in products %}
+        <div class="row product">
+          <div class="col-md-7 offset-md-5 product-title">
+            <h2>{{product.title}}</h2>
+          </div>
+          <div class="col-md-5">
+            <img src="{{product.images.0.src}}"/>
+          </div>
+          <div class="col-md-7 justify">
+            <div class="product-description">{{product.body_html|safe}}</div>
+            <div class="product-price">INR {{product.variants.0.price}}</div>
+            <button
+              data-product_id="{{product.id}}"
+              data-product_title="{{product.title}}"
+              data-price="{{product.variants.0.price}}"
+              type="button"
+              class="btn btn-primary btn-md add-to-cart-button"
+              {% if product.id in cart_products_ids %} disabled {% endif %}
+            >
+              {% if product.id in cart_products_ids %} Added to cart {% else %} Add to cart {% endif %}
+            </button>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock content %}
+
+{% block script %}
+  <script src={% static 'js/product-listing.js' %}></script>
+{% endblock %}

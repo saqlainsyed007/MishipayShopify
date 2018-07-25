@@ -1,0 +1,2 @@
+ORDER_TYPE_PLACED = "placed"
+ORDER_TYPE_CANCELLED = "cancelled"

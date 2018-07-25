@@ -1,0 +1,50 @@
+form {
+  margin: 25px;
+}
+
+form p label, form p input{
+  display: inline-block;
+  width: 200px;
+}
+
+form p span{
+  display: block;
+}
+
+form .helptext {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.errorlist li {
+  list-style: none;
+  color: red;
+}
+
+.main-link {
+  display: inline-block;
+  text-align: right;
+  margin: 30px 10px;
+}
+
+.center {
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.justify {
+  text-align: justify;
+}
+
+.error {
+  color: red;
+}

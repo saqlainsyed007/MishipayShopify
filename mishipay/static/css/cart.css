@@ -1,0 +1,30 @@
+.cart-header {
+  margin-bottom: 40px;
+}
+
+.cart-items-header {
+  margin-bottom: 20px;
+}
+
+.cart-items-header .col-md-2 {
+  border-bottom: solid 1px black;
+}
+
+.place-order-row {
+  margin-top: 20px;
+}
+
+.total-amount {
+  display: inline-block;
+  line-height: 40px;
+  margin-right: 20px;
+}
+
+.place-order-button {
+  position: relative;
+  top: -4px;
+}
+
+.no-items-msg-row {
+  margin-bottom: 15px;
+}

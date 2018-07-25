@@ -1,0 +1,26 @@
+.product {
+  margin: 50px;
+}
+
+.product img {
+  width: 100%;
+}
+
+.product .product-description {
+  height: 180px;
+  overflow: scroll;
+}
+
+.product .product-price {
+  display: inline-block;
+  font-weight: bold;
+  font-style: italic;
+  margin-top: 20px;
+  font-size: 25px;
+}
+
+.product .add-to-cart-button {
+  display: inline-block;
+  float: right;
+  margin-top: 20px;
+}

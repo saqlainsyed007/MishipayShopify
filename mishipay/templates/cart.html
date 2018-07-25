@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static custom_tags %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid cart-container">
+    <div class="row cart-header center">
+      <h1 class="center">CART</h1>
+    </div>
+    {% if not cart_items %}
+      <div class="row center no-items-msg-row">
+        {% if err_msg %}
+          <h4 class="error">{{err_msg}}</h4>
+        {% else %}
+          <h2>There are no items in your cart</h2>
+        {% endif %}
+      </div>
+      <div class="row center">
+        <div class="col-md-3 right">
+          <button
+            class="btn btn-primary btn-md continue-shopping-button redirect-button"
+            redirect-url="{% url 'product_listing' %}"
+          >
+            Continue Shopping
+          </button>
+        </div>
+        <div class="col-md-3 offset-md-1 left">
+          <button
+            class="btn btn-primary btn-md view-orders-button redirect-button"
+            redirect-url="{% url 'my_orders' %}"
+          >
+            View Previous Orders
+          </button>
+        </div>
+      </div>
+    {% else %}
+      <div class="row cart-items-header">
+        <div class="col-md-2 offset-md-3 center">
+          <h2>Product</h2>
+        </div>
+        <div class="col-md-2 center">
+          <h2>Quantity</h2>
+        </div>
+        <div class="col-md-2 center">
+          <h2>Amount</h2>
+        </div>
+      </div>
+      {% for cart_item in cart_items %}
+        <div class="row cart-item">
+          <div class="col-md-2 offset-md-3">
+            <b>{{cart_item.product_title}}</b>
+          </div>
+          <div class="col-md-2 center">
+            <label>
+              <input 
+                class="product-quantity"
+                type='text'
+                value="{{cart_item.quantity}}"
+                prev-value="{{cart_item.quantity}}"
+                data-cart-item-id="{{cart_item.id}}"
+              />
+              <span class="quantity-update-error error"></span>
+            </label>
+          </div>
+          <div class="col-md-2 cart-item-amount center">
+            {% get_amount cart_item.quantity cart_item.price %}
+          </div>
+        </div>
+      {% endfor %}
+      <div class="row place-order-row">
+        <div class='col-md-5 offset-md-4 right'>
+          <h4 class="total-amount">Total: INR {{cart_total}}</h4>
+          <button
+            class="btn btn-primary btn-md place-order-button redirect-button"
+            redirect-url="{% url 'place_order' %}"
+          >
+            Place Order
+          </button>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock content %}
+
+{% block script %}
+  <script src={% static 'js/cart.js' %}></script>
+{% endblock %}

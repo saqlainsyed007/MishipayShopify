@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container-fluid signup-form center">
+    <div class="row center">
+      <h2>Login</h2>
+    </div>
+    <div class="row center">
+      <form action="/login/{% if next_page %}?next={{next_page}}{% endif %}" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" value="Login" />
+          <input type="button" onclick="location.href = '/signup/';" value="SignUp">
+      </form>
+    </div>
+  </div>
+{% endblock content %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static custom_tags tz %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/my-orders.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid my-orders-container">
+    <div class="row my-orders-header center">
+      <h1 class="center">My orders</h1>
+    </div>
+    <div class="row center">
+      <h4 class="error">{{err_msg}}</h4>
+    </div>
+    {% if orders %}
+      {% for order in orders %}
+        <div class="order-container">
+          <div class="row order-number-row">
+            <div class="col-md-6 offset-md-3">
+              <h3>Order #{{order.id}}</h3>
+              {% localtime on %}
+                <span><b>{{ order.created_at|format_date_string }}</b></span>
+              {% endlocaltime %}
+            </div>
+          </div>
+          <div class="row order-header-row">
+            <div class="col-md-2 offset-md-3 center">
+              <h4>Product</h4>
+            </div>
+            <div class="col-md-2 center">
+              <h4>Quantity</h4>
+            </div>
+            <div class="col-md-2 center">
+              <h4>Amount</h4>
+            </div>
+          </div>
+          {% for order_item in order.line_items %}
+            <div class="row cart-item">
+              <div class="col-md-2 offset-md-3">
+                <b>{{order_item.title}}</b>
+              </div>
+              <div class="col-md-2 center">
+                {{order_item.quantity}}
+              </div>
+              <div class="col-md-2 cart-item-amount center">
+                {% get_amount order_item.quantity order_item.price %}
+              </div>
+            </div>
+          {% endfor %}
+          <div class="row cancel-order-row">
+            <div class='col-md-5 offset-md-4 right'>
+              <h4 class="total-amount">Total: INR {{order.total_price}}</h4>
+              <button
+                class="btn btn-primary btn-md cancel-order-button redirect-button"
+                {% if not order.cancelled_at %}
+                  redirect-url="{% url 'cancel_order' shopify_order_id=order.id %}"
+                {% else %}
+                  disabled
+                {% endif %}
+              >
+                {% if order.cancelled_at %}Cancelled{% else %}Cancel Order{% endif %}
+              </button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="row center no-items-msg-row">
+        <h2>There are no orders to show</h2>
+      </div>
+      <div class="row center">
+        <div class="col-md-3 center">
+          <button
+            class="btn btn-primary btn-md continue-shopping-button redirect-button"
+            redirect-url="{% url 'product_listing' %}"
+          >
+            Continue Shopping
+          </button>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock content %}
+
+{% block script %}
+  <script src={% static 'js/cart.js' %}></script>
+{% endblock %}
