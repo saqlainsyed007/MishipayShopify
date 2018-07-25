@@ -8,7 +8,36 @@
 {% block content %}
   <div class="container-fluid cart-container">
     <div class="row center no-items-msg-row">
-      <h2>Your order #{{order_number}} was {{order_status}} successfully</h2>
+      <h2>Your order #{{order.id}} was {{order_status}} successfully</h2>
+    </div>
+    <div class="row order-header-row">
+      <div class="col-md-2 offset-md-3 center">
+        <h4>Product</h4>
+      </div>
+      <div class="col-md-2 center">
+        <h4>Quantity</h4>
+      </div>
+      <div class="col-md-2 center">
+        <h4>Amount</h4>
+      </div>
+    </div>
+    {% for order_item in order.line_items %}
+      <div class="row cart-item">
+        <div class="col-md-2 offset-md-3">
+          <b>{{order_item.title}}</b>
+        </div>
+        <div class="col-md-2 center">
+          {{order_item.quantity}}
+        </div>
+        <div class="col-md-2 cart-item-amount center">
+          {% get_amount order_item.quantity order_item.price %}
+        </div>
+      </div>
+    {% endfor %}
+    <div class="row cancel-order-row">
+      <div class='col-md-5 offset-md-4 right'>
+        <h4 class="total-amount">Total: INR {{order.total_price}}</h4>
+      </div>
     </div>
     <div class="row center">
       <div class="col-md-3 right">

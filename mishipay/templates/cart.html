@@ -10,14 +10,17 @@
     <div class="row cart-header center">
       <h1 class="center">CART</h1>
     </div>
-    {% if not cart_items %}
+    {% if err_msg %}
       <div class="row center no-items-msg-row">
-        {% if err_msg %}
-          <h4 class="error">{{err_msg}}</h4>
-        {% else %}
-          <h2>There are no items in your cart</h2>
-        {% endif %}
+        <h4 class="error">{{err_msg}}</h4>
       </div>
+    {% endif %}
+    {% if not cart_items %}
+      {% if not err_msg %}
+        <div class="row center no-items-msg-row">
+          <h2>There are no items in your cart</h2>
+        </div>
+      {% endif %}
       <div class="row center">
         <div class="col-md-3 right">
           <button

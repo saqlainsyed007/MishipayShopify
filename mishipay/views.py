@@ -15,6 +15,7 @@ from django.contrib.auth import (
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from custom_user.models import User
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import BasicAuthentication
 from mishipay.custom_authentication import CsrfExemptSessionAuthentication
@@ -71,7 +72,8 @@ class SignUp(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('login'))
+            username = form.data['username']
+            return HttpResponseRedirect("{}?username={}".format(reverse('login'), username))
 
         return render(request, self.template_name, {'form': form})
 
@@ -96,13 +98,24 @@ class Login(View):
 
     def get(self, request, *args, **kwargs):
         next_page = request.GET.get('next', None)
+        username = request.GET.get('username', None)
+        if username:
+            try:
+                User.objects.get(username=username)
+            except User.objects.DoesNotExist:
+                username = ""
         if request.user.is_authenticated():
             if next_page:
                 return HttpResponseRedirect(next_page)
             else:
                 return HttpResponseRedirect(reverse('product_listing'))
         form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form, 'next_page': next_page})
+        context = {
+            'form': form,
+            'next_page': next_page,
+            'username': username
+        }
+        return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -293,7 +306,7 @@ def place_order(request):
             return HttpResponseRedirect('{}?err_msg={}'.format(reverse('cart'), urllib.parse.quote(err_msg)))
 
         cart_items.delete()
-        return render(request, 'order_success.html', {'order_number': order['id'], 'order_status': 'placed'})
+        return render(request, 'order_success.html', {'order': order, 'order_status': 'placed'})
     else:
         return HttpResponseRedirect(reverse('product_listing'))
 

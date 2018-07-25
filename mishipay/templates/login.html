@@ -3,6 +3,11 @@
 
 {% block content %}
   <div class="container-fluid signup-form center">
+    {% if username %}
+      <div class="row center">
+        <h3>User with username '{{username}}' successfully created.</h3>
+      </div>
+    {% endif %}
     <div class="row center">
       <h2>Login</h2>
     </div>
