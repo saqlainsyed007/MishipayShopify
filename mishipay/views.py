@@ -330,7 +330,7 @@ def cancel_order(request, shopify_order_id):
     if err_msg:
         return HttpResponseRedirect('{}?err_msg={}'.format(reverse('my_orders'), urllib.parse.quote(err_msg)))
     else:
-        return render(request, 'order_success.html', {'order_number': order['id'], 'order_status': 'cancelled'})
+        return render(request, 'order_success.html', {'order': order, 'order_status': 'cancelled'})
 
 
 class MyOrders(LoginRequiredMixin, TemplateView):
